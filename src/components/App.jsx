@@ -17,7 +17,6 @@ const App = () => {
   const [page, setPage] = useState(1)
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [modalData, setModalData] = useState(null)
-  const [noImagesResponse, setNoImagesResponse] = useState(false)
 
   
   const openModal = (modData) => {
@@ -44,10 +43,9 @@ const App = () => {
 
         const data = await fetchImages(query, page);
 
-        if (data.hits.length === 0 && !noImagesResponse) {
-          setNoImagesResponse(true);
+        if (data.hits.length === 0) {
           Notiflix.Notify.info('Sorry, there are no images matching your search query', { position: 'center-center', width: '460px', fontSize: '16px' });
-        }
+        };
 
         setPosts((prevPosts) => (page === 1 ? data.hits : [...prevPosts, ...data.hits]));
       } catch (error) {
@@ -57,7 +55,7 @@ const App = () => {
       }
     })();
   }
-  }, [page, query, noImagesResponse]);
+  }, [page, query]);
   
 
   const handleSubmit = (query) => {
